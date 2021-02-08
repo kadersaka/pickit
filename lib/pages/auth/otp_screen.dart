@@ -1,11 +1,14 @@
 import 'dart:async';
-
-import 'package:courier_pro/constant/constant.dart';
-import 'package:courier_pro/pages/bottom_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pickit/utils/constants.dart';
+import 'package:pickit/pages/main_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class OTPScreen extends StatefulWidget {
+  final String phonNumber;
+
+  const OTPScreen({Key key, this.phonNumber}) : super(key: key);
   @override
   _OTPScreenState createState() => _OTPScreenState();
 }
@@ -16,9 +19,12 @@ class _OTPScreenState extends State<OTPScreen> {
   var secondController = TextEditingController();
   var thirdController = TextEditingController();
   var fourthController = TextEditingController();
+  var fifthController = TextEditingController();
+
   FocusNode secondFocusNode = FocusNode();
   FocusNode thirdFocusNode = FocusNode();
   FocusNode fourthFocusNode = FocusNode();
+  FocusNode fifthFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -41,13 +47,14 @@ class _OTPScreenState extends State<OTPScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SpinKitRing(
-                    color: primaryColor,
+                    color: Theme.of(context).primaryColor,
                     lineWidth: 1.5,
                     size: 35.0,
                   ),
-                  heightSpace,
-                  heightSpace,
-                  Text('Please Wait..', style: greySmallTextStyle),
+                  SizedBox(
+                    height: 50.0,
+                  ),
+                  Text('Please Wait..', style: CustomTextStyle().greySmallTextStyle),
                 ],
               ),
             ),
@@ -56,26 +63,15 @@ class _OTPScreenState extends State<OTPScreen> {
       );
       Timer(
           Duration(seconds: 3),
-          () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BottomBar()),
-              ));
+              () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainHomePage()),
+          ));
     }
-
     return Scaffold(
-      backgroundColor: whiteColor,
       appBar: AppBar(
-        backgroundColor: whiteColor,
         elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: blackColor,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -85,20 +81,15 @@ class _OTPScreenState extends State<OTPScreen> {
             child: ListView(
               children: [
                 Container(
-                  padding: EdgeInsets.all(fixPadding * 2.0),
+                  padding: EdgeInsets.all(CustomTextStyle().fixPadding * 2.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                     SizedBox(height: 20.0,),
                       Text(
-                        'Verify details',
-                        style: blackLargeTextStyle,
-                      ),
-                      heightSpace,
-                      heightSpace,
-                      Text(
-                        'Enter the OTP sent to your mobile number',
-                        style: greySmallTextStyle,
+                        'Saisissez le code qui vous a été envoyé par SMS au ${widget.phonNumber}',
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       SizedBox(height: 50.0),
                       // OTP Box Start
@@ -112,10 +103,9 @@ class _OTPScreenState extends State<OTPScreen> {
                             height: 50.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: whiteColor,
+                              color: CustomTextStyle().whiteColor,
                               borderRadius: BorderRadius.circular(5.0),
-                              border:
-                                  Border.all(width: 0.2, color: primaryColor),
+                              border: Border.all(width: 0.2, color: Theme.of(context).primaryColor),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
                                   blurRadius: 1.5,
@@ -126,7 +116,6 @@ class _OTPScreenState extends State<OTPScreen> {
                             ),
                             child: TextField(
                               controller: firstController,
-                              style: blackHeadingTextStyle,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(18.0),
@@ -138,9 +127,10 @@ class _OTPScreenState extends State<OTPScreen> {
                                 if (firstController.text != '' &&
                                     secondController.text != '' &&
                                     thirdController.text != '' &&
-                                    fourthController.text != '') {
+                                    fourthController.text != '' &&
+                                    fifthController.text != '') {
                                   setState(() {
-                                    continueButtonColor = primaryColor;
+                                    continueButtonColor = Theme.of(context).primaryColor;
                                   });
                                 } else {
                                   setState(() {
@@ -157,10 +147,8 @@ class _OTPScreenState extends State<OTPScreen> {
                             height: 50.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: whiteColor,
                               borderRadius: BorderRadius.circular(5.0),
-                              border:
-                                  Border.all(width: 0.2, color: primaryColor),
+                              border: Border.all(width: 0.2, color: Theme.of(context).primaryColor),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
                                   blurRadius: 1.5,
@@ -172,7 +160,6 @@ class _OTPScreenState extends State<OTPScreen> {
                             child: TextField(
                               focusNode: secondFocusNode,
                               controller: secondController,
-                              style: blackHeadingTextStyle,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(18.0),
@@ -184,9 +171,10 @@ class _OTPScreenState extends State<OTPScreen> {
                                 if (firstController.text != '' &&
                                     secondController.text != '' &&
                                     thirdController.text != '' &&
-                                    fourthController.text != '') {
+                                    fourthController.text != '' &&
+                                    fifthController.text != '') {
                                   setState(() {
-                                    continueButtonColor = primaryColor;
+                                    continueButtonColor = Theme.of(context).primaryColor;
                                   });
                                 } else {
                                   setState(() {
@@ -196,17 +184,15 @@ class _OTPScreenState extends State<OTPScreen> {
                               },
                             ),
                           ),
-                          // 2 End
-                          // 3 Start
                           Container(
                             width: 50.0,
                             height: 50.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: whiteColor,
+//                              color: whiteColor,
                               borderRadius: BorderRadius.circular(5.0),
                               border:
-                                  Border.all(width: 0.2, color: primaryColor),
+                              Border.all(width: 0.2, color: Theme.of(context).primaryColor),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
                                   blurRadius: 1.5,
@@ -218,7 +204,6 @@ class _OTPScreenState extends State<OTPScreen> {
                             child: TextField(
                               focusNode: thirdFocusNode,
                               controller: thirdController,
-                              style: blackHeadingTextStyle,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(18.0),
@@ -230,9 +215,10 @@ class _OTPScreenState extends State<OTPScreen> {
                                 if (firstController.text != '' &&
                                     secondController.text != '' &&
                                     thirdController.text != '' &&
-                                    fourthController.text != '') {
+                                    fourthController.text != '' &&
+                                    fifthController.text != '') {
                                   setState(() {
-                                    continueButtonColor = primaryColor;
+                                    continueButtonColor = Theme.of(context).primaryColor;
                                   });
                                 } else {
                                   setState(() {
@@ -242,17 +228,15 @@ class _OTPScreenState extends State<OTPScreen> {
                               },
                             ),
                           ),
-                          // 3 End
-                          // 4 Start
                           Container(
                             width: 50.0,
                             height: 50.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: whiteColor,
+//                              color: whiteColor,
                               borderRadius: BorderRadius.circular(5.0),
                               border:
-                                  Border.all(width: 0.2, color: primaryColor),
+                              Border.all(width: 0.2, color: Theme.of(context).primaryColor),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
                                   blurRadius: 1.5,
@@ -264,7 +248,50 @@ class _OTPScreenState extends State<OTPScreen> {
                             child: TextField(
                               focusNode: fourthFocusNode,
                               controller: fourthController,
-                              style: blackHeadingTextStyle,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(18.0),
+                                border: InputBorder.none,
+                              ),
+                              onChanged: (v) {
+                                FocusScope.of(context)
+                                    .requestFocus(fifthFocusNode);
+                                if (firstController.text != '' &&
+                                    secondController.text != '' &&
+                                    thirdController.text != '' &&
+                                    fourthController.text != '' &&
+                                    fifthController.text != '') {
+                                  setState(() {
+                                    continueButtonColor = Theme.of(context).primaryColor;
+                                  });
+                                } else {
+                                  setState(() {
+                                    continueButtonColor = Colors.grey[500];
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+//                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(5.0),
+                              border:
+                              Border.all(width: 0.2, color: Theme.of(context).primaryColor),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  blurRadius: 1.5,
+                                  spreadRadius: 1.5,
+                                  color: Colors.grey[200],
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              focusNode: fifthFocusNode,
+                              controller: fifthController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(18.0),
@@ -274,9 +301,10 @@ class _OTPScreenState extends State<OTPScreen> {
                                 if (firstController.text != '' &&
                                     secondController.text != '' &&
                                     thirdController.text != '' &&
-                                    fourthController.text != '') {
+                                    fourthController.text != '' &&
+                                    fifthController.text != '') {
                                   setState(() {
-                                    continueButtonColor = primaryColor;
+                                    continueButtonColor = Theme.of(context).primaryColor;
                                   });
                                 } else {
                                   setState(() {
@@ -298,20 +326,21 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(fixPadding * 2.0),
+            padding: EdgeInsets.all(CustomTextStyle().fixPadding * 2.0),
             child: InkWell(
               onTap: () {
                 if (firstController.text != '' &&
                     secondController.text != '' &&
                     thirdController.text != '' &&
-                    fourthController.text != '') {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => BottomBar()));
+                    fourthController.text != '' &&
+                    fifthController.text != '') {
+//                  Navigator.push(context,
+//                      MaterialPageRoute(builder: (context) => BottomBar()));
                 }
               },
               child: AnimatedContainer(
-                width: width - fixPadding * 2.0,
-                padding: EdgeInsets.all(fixPadding * 1.0),
+                width: width - CustomTextStyle().fixPadding * 2.0,
+                padding: EdgeInsets.all(CustomTextStyle().fixPadding * 1.0),
                 duration: Duration(milliseconds: 200),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -319,8 +348,8 @@ class _OTPScreenState extends State<OTPScreen> {
                   color: continueButtonColor,
                 ),
                 child: Text(
-                  'Continue',
-                  style: whiteBottonTextStyle,
+                  'Continuer',
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             ),

@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum ThemeKeys { LIGHT, DARK }
 
 class Themes {
-  static const Color _primaryColor = Color(0xFFf99d32);
-  // static const Color _primaryColorDark = Color(0xFFc16e00);
-  // static const Color _secondColor = Color(0xFF344968);
-  // static const Color _secondDarkColor = Color(0xFFccccdd);
-  // static const Color _accentColor = Color(0xFFffce63);
-  // static const Color _accentDarkColor = Color(0xFF9999aa);
+  static const Color _primaryColor = Color(0xFFfecb00);
+  static const Color _accentColor = Color(0xFF00678f);
   static const Color _primaryTextColor = Color(0xFFF212121);
   static const Color _primaryTextColorDark = Color(0xFFFAFAFA);
   static const Color _scaffoldColor = Color(0xFFFAFAFA);
   static const Color _scaffoldDarkColor = Color(0xFF2C2C2C);
-  static const Color _professionalColor =
-      Color(0xFF337ab7); // TODO Dart Analysis says this is not referenced
-  static const Color _personalColor =
-      Color(0xFF5cb85c); // TODO Dart Analysis says this is not referenced
+  static const Color _professionalColor = Color(0xFF337ab7); // TODO Dart Analysis says this is not referenced
+  static const Color _personalColor = Color(0xFF5cb85c); // TODO Dart Analysis says this is not referenced
 
   static final ThemeData lightTheme = ThemeData(
+    fontFamily: GoogleFonts.anticSlab().fontFamily,
     primaryColor: _primaryColor,
     brightness: Brightness.light,
     scaffoldBackgroundColor: _scaffoldColor,
-    accentColor: _primaryColor,
+    accentColor: _accentColor,
     hintColor: _primaryColor,
     focusColor: Colors.grey,
     textSelectionHandleColor: _primaryColor,
     textTheme: TextTheme(
-      headline5: TextStyle(fontSize: 20.0, color: _primaryColor),
+      headline5: TextStyle(fontSize: 18.0, color: _primaryColor),
       headline4: TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.w600,
@@ -44,7 +40,7 @@ class Themes {
         color: _primaryColor,
       ),
       headline1: TextStyle(
-        fontSize: 22.0,
+        fontSize: 35.0,
         fontWeight: FontWeight.w600,
         color: _primaryColor,
       ),
@@ -53,11 +49,17 @@ class Themes {
         fontWeight: FontWeight.w500,
         color: _primaryTextColor,
       ),
+      subtitle2: TextStyle(
+        fontSize: 15.0,
+        fontWeight: FontWeight.w500,
+        color: _primaryTextColor,
+      ),
       headline6: TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w600,
-        color: _primaryTextColor,
+        color: _primaryColor,
       ),
+
       bodyText2: TextStyle(fontSize: 12.0, color: _primaryTextColor),
       bodyText1: TextStyle(fontSize: 14.0, color: _primaryTextColor),
       caption: TextStyle(fontSize: 12.0, color: _primaryTextColor),
@@ -72,6 +74,8 @@ class Themes {
   );
 
   static final ThemeData darkTheme = ThemeData(
+    fontFamily: GoogleFonts.anticSlab().fontFamily,
+
     primaryColor: _primaryColor,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: _scaffoldDarkColor,
@@ -97,7 +101,7 @@ class Themes {
         color: _primaryColor,
       ),
       headline1: TextStyle(
-        fontSize: 22.0,
+        fontSize: 35.0,
         fontWeight: FontWeight.w600,
         color: _primaryColor,
       ),

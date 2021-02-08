@@ -1,7 +1,7 @@
-import 'package:courier_pro/constant/constant.dart';
-import 'package:courier_pro/pages/login_signup/otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:pickit/pages/auth/otp_screen.dart';
+import 'package:pickit/utils/constants.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -10,11 +10,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   Color continueButtonColor = Colors.grey[500];
-  String phoneNumber = '';
+  String phoneNumber, country_code, dialing_code;
   String phoneIsoCode;
+  bool isPhoneValid = false;
   final TextEditingController controller = TextEditingController();
-  String initialCountry = 'IN';
-  PhoneNumber number = PhoneNumber(isoCode: 'IN');
+  String initialCountry = 'BJ';
+  PhoneNumber number = PhoneNumber(isoCode: 'BJ');
   void onPhoneNumberChange(
       String number, String internationalizedPhoneNumber, String isoCode) {
     setState(() {
@@ -27,19 +28,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: whiteColor,
       appBar: AppBar(
-        backgroundColor: whiteColor,
         elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: blackColor,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -49,65 +40,48 @@ class _LoginState extends State<Login> {
             child: ListView(
               children: [
                 Container(
-                  padding: EdgeInsets.all(fixPadding * 2.0),
+                  padding: EdgeInsets.all(CustomTextStyle().fixPadding * 2.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Enter your mobile number',
-                        style: blackLargeTextStyle,
+                        'Saisissez votre numero de téléphone',
+                        style: CustomTextStyle().blackLargeTextStyle,
                       ),
-                      heightSpace,
-                      heightSpace,
-                      Text(
-                        'Create an account with your mobile number',
-                        style: greySmallTextStyle,
+                      SizedBox(
+                        height: 50.0,
                       ),
-                      SizedBox(height: 50.0),
-                      Text(
-                        'Mobile Number',
-                        style: greySmallBoldTextStyle,
-                      ),
-                      heightSpace,
+
                       InternationalPhoneNumberInput(
-                        textStyle: TextStyle(
-                          color: blackColor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        autoValidate: false,
-                        selectorTextStyle: TextStyle(
-                          color: blackColor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        initialValue: number,
-                        textFieldController: controller,
-                        // inputBorder: InputBorder.none,
+                        onInputChanged: (PhoneNumber number) {
+                          print(number.phoneNumber);
+                          setState(() {
+                            phoneNumber = number.phoneNumber.toString();
+                            country_code = number.isoCode;
+                            dialing_code = number.dialCode;
+                            print ('phoneNum is: ');
+                            print(phoneNumber);
+                            print(country_code);
+                            print(dialing_code);
+                          });
+                        },
+                        isEnabled: true,
+                        countries: ['BJ'],
+                        autoValidateMode: AutovalidateMode.always,
+                        formatInput: false,
+                        ignoreBlank: true,
                         inputDecoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 20.0),
-                          hintText: 'Mobile Number',
-                          hintStyle: TextStyle(
-                            color: greyColor,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          // border: InputBorder.none,
+                          border: InputBorder.none,
                         ),
-                        selectorType: PhoneInputSelectorType.DIALOG,
-                        onInputChanged: (v) {
-                          if (controller.text != '') {
-                            setState(() {
-                              continueButtonColor = primaryColor;
-                            });
-                          } else {
-                            setState(() {
-                              continueButtonColor = Colors.grey[500];
-                            });
-                          }
+                        onInputValidated: (bool value) {
+                          print(value);
+                          setState(() {
+                            isPhoneValid = value;
+                          });
                         },
                       ),
+
                     ],
                   ),
                 ),
@@ -115,26 +89,23 @@ class _LoginState extends State<Login> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(fixPadding * 2.0),
+            padding: EdgeInsets.all(CustomTextStyle().fixPadding * 2.0),
             child: InkWell(
               onTap: () {
-                if (controller.text != '') {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => OTPScreen()));
-                }
+                isPhoneValid ? Navigator.push(context, MaterialPageRoute(builder: (context) => OTPScreen(phonNumber: phoneNumber,))) : null;
               },
               child: AnimatedContainer(
-                width: width - fixPadding * 2.0,
-                padding: EdgeInsets.all(fixPadding * 1.0),
+                width: width - CustomTextStyle().fixPadding * 2.0,
+                padding: EdgeInsets.all(CustomTextStyle().fixPadding * 1.0),
                 duration: Duration(milliseconds: 200),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.0),
-                  color: continueButtonColor,
+                  color: isPhoneValid ? Theme.of(context).primaryColor :  Colors.grey[500],
                 ),
                 child: Text(
-                  'Continue',
-                  style: whiteBottonTextStyle,
+                  'Continuer',
+                  style: CustomTextStyle().whiteBottonTextStyle,
                 ),
               ),
             ),

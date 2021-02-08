@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
-class SplashScreen extends StatefulWidget {
+import 'package:pickit/pages/auth/login_start.dart';
+import 'package:pickit/utils/constants.dart';
+import 'package:pickit/pages/main_homepage.dart';
+class  SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -15,16 +17,16 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(seconds: 3),
         () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => WalkThrough()),
+//          MaterialPageRoute(builder: (context) => LoginStart()),
+          MaterialPageRoute(builder: (context) => MainHomePage()),
             ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darkBlueColor,
       body: Padding(
-        padding: EdgeInsets.all(fixPadding),
+        padding: EdgeInsets.all(CustomTextStyle().fixPadding),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,12 +34,12 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Text(
                 'CourierPro',
-                style: splashBigTextStyle,
+                style: CustomTextStyle().splashBigTextStyle,
               ),
-              heightSpace,
+              CustomTextStyle().heightSpace,
               Text(
                 'on-demand delivery available 24x7',
-                style: whiteNormalTextStyle,
+                style: CustomTextStyle().whiteNormalTextStyle,
               ),
             ],
           ),

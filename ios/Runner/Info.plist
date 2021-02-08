@@ -26,6 +26,14 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Needs photo library for chosing user profile picture</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Needs camera for chosing user profile picture</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Needs microphone access for detecting audio commercials</string>
+	<key>NSContactsUsageDescription</key>
+    <string>This app requires contacts access to function properly.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
