@@ -84,6 +84,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_contact/contacts.dart';
+import 'package:flutter_contact/flutter_contact.dart';
 import 'package:pickit/pages/splash_screen.dart';
 import 'package:pickit/themes/custom_theme.dart';
 import 'package:pickit/themes/theme.dart';
@@ -101,6 +103,9 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
+  Contact newContact = Contact();
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -110,8 +115,24 @@ class MyApp extends StatelessWidget {
       darkTheme: Themes.darkTheme,
 
       title: 'Pickit',
+home: Scaffold(
+  body: Center(
+    child: RaisedButton(
+      child: Text("Edit before saving"),
+      onPressed: ()async{
+        newContact.displayName = "Sero";
+        newContact.givenName = "Abdel";
+        newContact.familyName = "SAKA";
+        newContact.phones = [Item(label: 'mobile', value: "+1 646 206 5162")];
+
+        final Contact cont = await Contacts.openContactInsertForm(newContact);
+
+      },
+    ),
+  ),
+),
 //      home: SplashScreen(),
-      home: MainHomePage(),
+//      home: MainHomePage(),
     );
   }
 }
